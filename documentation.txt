@@ -1,0 +1,287 @@
+
+//////////////////////////////////////////////////
+///////---[VECTOR]---////////////////////////////
+
+new Vector(angle) //deg
+new Vector(a, b) //x, y
+new Vector(a, b, c, d) //xFrom, yFrom, xTo, yTo
+Vector.Copy()
+Vector.Length()
+Vector.Normalize() //can provide length if already known
+Vector.Reverse()
+Vector.Perpendicular(dir) //true=clockwise
+Vector.Add(vector...)
+Vector.Subtract(vector...)
+Vector.Multiply(vector)
+Vector.Multiply(a)
+Vector.Multiply(a, b) //x, y
+Vector.Average(vector...)
+Vector.Dot(vector) //returns scalar
+Vector.Angle()
+Vector.Angle(vector) //angle between vectors
+Vector.Rotate(deg) //add angle
+Vector.ScalarProject(vector)
+Vector.VectorProject(vector)
+Vector.VectorReject(vector)
+
+
+
+//////////////////////////////////////////////////
+///////---[INPUT(events)]---/////////////////////
+
+.mouseX, .mouseY //mouse coordinates relative to window
+.isTouch
+.mouseStates{} //left, middle, right
+.keyNames{}
+.keyStates[]
+.events.mouseclick[] //all events are stored and fired from here
+.events.mousemove[]
+.events.mousescroll[]
+.events.keypress[]
+
+Input.KeyID("keyName") //get key ID from key name
+Input.KeyDown("keyName") //get current key state
+Input.MouseDown(button)
+
+new Input.Event.MouseClick(event, callback, onstopCallback)
+	id
+	button //"left", "middle", "right", undefined
+	state //"up","down"
+	active //true,false
+	disabled //true,false
+	autoDestroy //true,false
+	preventDefault //true,false
+	repeat //true,false
+	repeatTime //delay in miliseconds
+	repeatCount //counter
+	repeatTimeout
+	activeButton //currently pressed button (if more are possible)
+	Callback(button, originalEvent), OnStop(button, originalEvent)
+	Trigger(button, originalEvent)
+	Start(button, originalEvent), Stop(button, originalEvent)
+	Enable(), Disable()
+	Destroy()
+
+new Input.Event.MouseMove(event, callback)
+	id
+	disabled
+	autoDestroy
+	preventDefault
+	Trigger(x, y, originalEvent)
+	Callback(x, y, originalEvent)
+	Enable(), Disable()
+	Destroy()
+
+new Input.Event.MouseScroll(event, callback)
+	id
+	direction //"up", "down", "both"/undefined
+	disabled
+	autoDestroy
+	preventDefault
+	Trigger(direction, originalEvent)
+	Callback(direction, originalEvent)
+	Enable(), Disable()
+	Destroy()
+
+new Input.Event.KeyPress(event, callback, onstopCallback)
+	id
+	button
+	state //"up","down"
+	active //true,false
+	disabled //true,false
+	autoDestroy //true,false
+	preventDefault //true,false
+	repeat //true,false
+	repeatTime //delay in miliseconds
+	repeatCount //counter
+	repeatTimeout
+	activeButton //currently pressed button (if more are possible)
+	Callback(button, originalEvent), OnStop(button, originalEvent)
+	Trigger(button, originalEvent)
+	Start(button, originalEvent), Stop(button, originalEvent)
+	Enable(), Disable()
+	Destroy()
+
+
+
+//////////////////////////////////////////////////
+///////---[UTILS]---/////////////////////////////
+
+ARRAY.NumSort()
+ARRAY.delete(index, preserveIndicies)
+NUMBER.fixedTo(pos) //return float rounded to decimal position
+
+new Timestamp() //timestamp with current time
+new Timestamp(unixtime) //timestamp with set time
+Timestamp.time //time of creation (ms)
+Timestamp.since() //time passed since set time (ms)
+
+Math.Clamp(num, min, max) //default 0-1, //undefined = not limited
+Math.sqr(num)
+Math.toRad(deg)
+Math.toDeg(rad)
+Math.RandomRange(min, max) //(min <= x < max)
+Math.RandomRangeFloat(min, max)
+Math.Random() 50/50 true/false
+Math.Random(probability) //(0-1)
+Math.RandomChance(probability) 
+Math.WeightedRandom([val, weight]...) //or [[val, weight]...]
+Math.Average(...) //or [...]
+Math.WeightedAverage([num, weight]...) //or [[num, weight]...]
+
+Utils.FormatString(txt, def)
+Utils.FormatNum(num, def)
+Utils.ValidNum(...) //true/false
+Utils.ValidString(str, [val...]) //true/false if str==any_val
+Utils.LoadScript(source, callback);
+Utils.DeepCopy(item)
+Utils.SaveToTextFile(filename, extension, data) //data = string
+Utils.OpenFileDialog(callback) //callback(file, file.name, file.size)
+Utils.ReadTextFile(file, callback) //callback(text) //callback(false, error)
+
+
+
+//////////////////////////////////////////////////
+///////---[GRAPHICS]---//////////////////////////
+
+.canvas //canvas element
+.ctx //canvas context
+.setWidth //set canvas width, >1 or false=automatic
+.setHeight
+.canvasWidth, .canvasHeight
+.canvasMidX, .canvasMidY //(width/2) & (height/2)
+.canvasX, .canvasY //canvas offset (top-left corner)
+.canvasZoom //default=1, 2=2x zoom-in
+.Textures{//all textures saved by their name
+	{MissingTexture} //default replacement texture
+} 
+.RenderFunc() //holder for provided render function
+
+new Graphics.Texture(name, sourceURL, callback)
+new Graphics.BitmapTexture()
+Graphics.PreloadTextures(callback, sources["url"...]) 
+Graphics.PreloadSounds(callback, sources["url"...]) 
+Graphics.GetTextWidth(text, fontStyle) //font style from G.FontStyle
+Graphics.ApplyDistanceX(x, distance) //apply distance effect to coordinates
+Graphics.ApplyDistanceY(y, distance)
+Graphics.ClearCanvas()
+Graphics.Render()
+
+Graphics.SetCanvasSize(width, height) //number, false=autoresize to fit window
+Graphics.ResizeCanvas() //update canvas size depending on setWidth & setHeight
+Graphics.InitCanvas(html_id)
+Graphics.SetCanvasBackground(background) //css format, can use G.RGB()
+
+Graphics.MissingTexture
+Graphics.Textures[name]
+	.name
+	.type //"image", "bitmap"
+	.src //original URL
+	.img //raw image element
+	.loaded //default = false, true when successfully loaded
+	.width
+	.height
+	.pattern {
+		.repeat //repeating version of the texture (default)
+		.norepeat //not repeating
+	}
+	.Get(repeat) //false returns norepeat texture
+
+Graphics.Draw({
+	type:layer, line, rect, circle, polygon, text, bitmap/imagedata, image
+	x, y, r || x, y, width, height || fromX, fromY, toX, toY || x1, y1, x2, y2
+	r //radius OR rectangle rounded corners radius
+	
+	angle
+	centerX, centerY //rotation center, number=pos, false=no centering, true(default)=autocenter
+	alignX //left, right, middle/center
+	alignY //top, bottom, middle/center //text: top-most/top2, bottom-most/bottom2
+	display //true/false //false=not drawn at all
+	distance //moving coeficient, adds appearance of distance, 1=normal, 0/false=GUI Static element
+	
+	points //[ {x:0, y:0}, {x:0,y:5}, {x:5, y:3} ]
+	font / fontStyle //use G.FontStyle() to generate font style
+	text
+	
+	texture, fill, color
+	textureOffsetX
+	textureOffsetY
+	textureZoom || textureScaleY & textureScaleX
+	textureAngle
+	fillType //repeat, norepeat, stretch, max, min, horizontal, vertical
+	//bitmap texture supports only norepeat, stretch and max
+	
+	outline, outlineTexture, stroke, outlineColor //image texture not supported
+	outlineWidth
+	
+	opacity || textureOpacity & outlineOpacity
+	hollow //true/false (true = no fill)
+})
+
+Graphics.SetCanvasZoom(newZoom) //centered zoom
+Graphics.ZoomCanvasTo(x, y, newZoom) //zoom on point
+Graphics.RotateCanvas(rotation) //set canvas angle
+Graphics.CenterCanvasTo(x, y) //set canvas center to given position
+Graphics.MoveCanvasTo(x, y) //set canvas offset to
+Graphics.MoveCanvasBy(x, y, relativeSpeed) //move canvas by amount, relativeSpeed true (default) = move at same visual speed with any zoom
+
+Graphics.GetCanvasPixel(x, y) //returns specific pixel {.r, .g, .b, .a}
+Graphics.GetCanvasPixelArea(fromX, fromY, toX, toY) //returns array of pixels in format area[x][y].r, .g, .b, .a //values range 0-255
+Graphics.GenerateBitmap(width, height, function(x, y, width, height){}) //custom function called per pixel, expects {r:, g:, b:, a:} //0-255 //a defaults to 255 (fully opaque)
+Graphics.UseBitmapAsTexture(name, bitmap) //adds bitmap to textures for further usage, stored as imageData
+Graphics.BitmapToImageData(bitmap)
+Graphics.ImageDataToBitmap(imgData)
+
+
+
+//////////////////////////////////////////////////
+///////---[GAMELIB]---///////////////////////////
+
+RGB(r, g, b)
+RGBA(r, g, b, a) //a = float 0-1
+G.HSVtoRGB(h, s, v, a) //0-1, a = optional alpha //returns {r:, g:, b:, :a}
+G.FontStyle(fontSize, bold, italic, font) //bold, italic = 0-2,  return: .style, .size
+G.FpsToTime(fps, gamefps)
+
+G.GetDist(x1, y1, x2, y2)
+G.GetDistNoSqrt(x1, y1, x2, y2) //un-square-rooted distance
+G.GetAngle(cX, cY, x, y)
+G.PointAtAngle(cX, cY, angle, dist) //{x, y}
+
+G.IntersectCircleCircle(x1, y1, r1, x2, y2, r2) //true/false
+G.IntersectRectRect(x1, y1, w1, h1, x2, y2, w2, h2)
+G.IntersectRectCircle(x, y, w, h, cx, cy, r)
+G.IsPointInCircle(x, y, cx, cy, r)
+G.IsPointInRect(x, y, cx, cy, w, h)
+G.IsPointInArea(x, y, x1, y1, x2, y2)
+
+G.IntersectLineLine(Ax1, Ay1, Ax2, Ay2, Bx1, By1, Bx2, By2) //{x, y}/false
+G.IntersectLineCircle(x1, y1, x2, y2, cx, cy, r) //{x, y}/false
+G.IntersectLineRect(x1, y1, x2, y2, cx, cy, w, h) //{x, y, "side"}/false (top/bottom/left/right)
+
+
+
+//////////////////////////////////////////////////
+///////---[GAME]---//////////////////////////////
+
+.cursorX, .cursorY //mouse position on html canvas
+.mouseX, .mouseY //mouse position in canvas coordinates
+.mousePosEvent //Input.Event.MouseMove
+.tickSpeed //loop interval (1000/fps)
+.fps
+.tick //tick counter
+.tickTime //length of current tick (in ms)
+.lastTick, .newTick //Timestamp
+.timerID
+.timeScale //slow-motion = 0.5
+.paused //true/false (paused when game created)
+.Events[] //stores input events
+.Loop(time) //stores custom game loop function, time = tickTime in seconds
+
+Game.Init(canvasID, width, height, maxFPS, callback, gameLoopFunc, render, textures, sounds, scripts)
+Game.MainLoop() //main game loop + render
+Game.Start()
+Game.Stop()
+
+Game.SetFPSLimit(maxFPS)
+Game.AttachEvent(name, type, event{}, callback, onstopCallback) //mouseclick, mousemove, mousescroll, keypress
