@@ -10,7 +10,7 @@ A JavaScript 2D canvas/game framework (+other utilities and experiments) I made 
 - "[" and "]" rotates the background itself
 
 #### [2 player game test](https://tomlacko.github.io/JS-2DCanvasFramework#shootoff)
-- The game is completely stupid and pointless, but it was only used for testing purposes
+- The game is completely stupid and pointless as it was only used for testing purposes
 - Shooting the oponent gives you score, all shots are automatically aimed at the opponent
 - Blue player moves via WASD, shoots by E and blocks by Q
 - Red player moves via arrow keys, shoots by CTRL / right alt and blocks by Num 0
